@@ -113,7 +113,7 @@ describe("merge", function () {
             //[0, 1, '2', false, {prop: 'val'}]
             //[0, 1, 'test', false, null, null, 'test2]
 
-            assert.deepEqual(merger.object.array, [0, 1, 'test', false, undefined, undefined, 'test2']);
+            assert.deepEqual(merger.object.array, [0, 1, 'test', false, , , 'test2']);
         });
 
     });
