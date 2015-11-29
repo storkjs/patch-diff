@@ -1,0 +1,41 @@
+{
+  "name": "diff-merge",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/barakedry/merge-diff.git"
+  },
+  "keywords": [
+    "merge",
+    "diff",
+    "delta",
+    "dirty",
+    "checking"
+  ],
+  "author": "Barak Edry",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/barakedry/merge-diff/issues"
+  },
+  "homepage": "https://github.com/barakedry/merge-diff",
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "load-grunt-tasks": "^3.3.0",
+    "mocha": "^2.3.4",
+    "time-grunt": "^1.2.2"
+  },
+  "dependencies": {
+    "grunt-mocha-test": "^0.12.7",
+    "lodash": "^3.10.1"
+  }
+}
