@@ -102,8 +102,8 @@ describe("merge", function () {
 
         it('1 item should be modified 1 deleted and one added', function () {
 
-            merger.differences.on("array", function (diff) {
-                assert.deepEqual(diff, {'2': 'test', 4: merger.options.deleteKeyword, 7: "test2"});
+            merger.on("array", function (diff) {
+                assert.deepEqual(diff.differences, {'2': 'test', 4: merger.options.deleteKeyword, 7: "test2"});
             });
 
             merger.merge({
@@ -141,12 +141,12 @@ describe("merge", function () {
 
         it('merged object should be the same as expected object', function () {
 
-            merger.differences.on("nested", function (diff) {
-                console.log('diff', diff);
+            merger.on("nested", function (diff) {
+                console.log('diff', diff.differences);
             });
 
             merger.merge({
-                b: {'added': 'asd'}
+                b: {'added': 'asd', c: {d: {property2: undefined}}}
             }, 'nested.a');
 
             //[0, 1, '2', false, {prop: 'val'}]
