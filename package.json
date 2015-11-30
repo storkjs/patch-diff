@@ -1,6 +1,6 @@
 {
   "name": "diff-merge",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "main": "index.js",
   "directories": {
@@ -21,6 +21,12 @@
     "checking"
   ],
   "author": "Barak Edry",
+  "contributors": [
+    {
+      "name": "Sagie Gur-Ari",
+      "email": "sagiegurari@gmail.com"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/barakedry/merge-diff/issues"
