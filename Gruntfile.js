@@ -2,8 +2,7 @@
 /*eslint no-sync: 0*/
 
 module.exports = function (grunt) {
-    require('time-grunt')(grunt);
-    require('load-grunt-tasks')(grunt);
+    grunt.loadNpmTasks('grunt-mocha-test');
 
     grunt.config.init({
         mochaTest: {
