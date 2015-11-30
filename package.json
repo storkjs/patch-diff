@@ -36,6 +36,7 @@
     "time-grunt": "^1.2.2"
   },
   "dependencies": {
+    "debuglog": "^1.0.1",
     "lodash": "^3.10.1"
   }
 }
