@@ -1,6 +1,6 @@
 {
   "name": "diff-merge",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "main": "index.js",
   "directories": {
@@ -30,12 +30,12 @@
     "chai": "^3.4.1",
     "grunt": "^0.4.5",
     "grunt-cli": "^0.1.13",
+    "grunt-mocha-test": "^0.12.7",
     "load-grunt-tasks": "^3.3.0",
     "mocha": "^2.3.4",
     "time-grunt": "^1.2.2"
   },
   "dependencies": {
-    "grunt-mocha-test": "^0.12.7",
     "lodash": "^3.10.1"
   }
 }
