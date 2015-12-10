@@ -1,13 +1,14 @@
 {
   "name": "diff-merge",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
   "main": "index.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "localtest": "grunt localtest"
   },
   "repository": {
     "type": "git",
@@ -33,11 +34,18 @@
   },
   "homepage": "https://github.com/storkjs/merge-diff",
   "devDependencies": {
+    "blanket": "^1.2.1",
     "chai": "^3.4.1",
     "grunt": "^0.4.5",
+    "grunt-blanket": "0.0.9",
     "grunt-cli": "^0.1.13",
+    "grunt-contrib-clean": "^0.7.0",
+    "grunt-contrib-copy": "^0.8.2",
+    "grunt-coveralls": "^1.0.0",
     "grunt-mocha-test": "^0.12.7",
-    "mocha": "^2.3.4"
+    "load-grunt-tasks": "^3.3.0",
+    "mocha": "^2.3.4",
+    "mocha-lcov-reporter": "^1.0.0"
   },
   "dependencies": {
     "debuglog": "^1.0.1",
