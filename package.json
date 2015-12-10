@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/barakedry/merge-diff.git"
+    "url": "git+https://github.com/storkjs/merge-diff.git"
   },
   "keywords": [
     "merge",
@@ -29,9 +29,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/barakedry/merge-diff/issues"
+    "url": "https://github.com/storkjs/merge-diff/issues"
   },
-  "homepage": "https://github.com/barakedry/merge-diff",
+  "homepage": "https://github.com/storkjs/merge-diff",
   "devDependencies": {
     "chai": "^3.4.1",
     "grunt": "^0.4.5",
