@@ -1,8 +1,9 @@
 /**
  * Created by barakedry on 6/21/15.
  */
+/*global describe: false, it: false */
+
 'use strict';
-var mocha = require('mocha');
 var MergeDiff = require('../');
 var assert = require('assert');
 
