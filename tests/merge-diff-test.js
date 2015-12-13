@@ -160,16 +160,6 @@ describe("merge-diff", function () {
 
     describe("delete", function () {
         describe('primitives', function () {
-
-            function createPrimitives() {
-                return {
-                    boolean: true,
-                    number: 5,
-                    string: 'hello',
-                    'null': null
-                };
-            }
-
             it('delete 1 primitive', function () {
                 var merger = new MergeDiff(createBaseObject());
                 var expectedObject = createBaseObject();
@@ -179,7 +169,6 @@ describe("merge-diff", function () {
 
                 assert.deepEqual(merger.object, expectedObject);
             });
-
         });
 
         describe('nested', function () {
