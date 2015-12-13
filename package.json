@@ -45,7 +45,8 @@
     "grunt-mocha-test": "^0.12.7",
     "load-grunt-tasks": "^3.3.0",
     "mocha": "^2.3.4",
-    "mocha-lcov-reporter": "^1.0.0"
+    "mocha-lcov-reporter": "^1.0.0",
+    "node.extend": "^1.1.5"
   },
   "dependencies": {
     "debuglog": "^1.0.1",
