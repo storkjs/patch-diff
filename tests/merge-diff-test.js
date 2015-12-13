@@ -193,6 +193,10 @@ describe("merge-diff", function () {
                 assert.deepEqual(merger.object, expectedObject);
                 assert.isTrue(specificEvent);
                 assert.isTrue(generalEvent);
+
+                merger.merge(createSmallObject(), 'nested.a.b.c');
+
+                assert.deepEqual(merger.object, expectedObject);
             });
         });
     });
@@ -225,6 +229,10 @@ describe("merge-diff", function () {
                 assert.deepEqual(merger.object, expectedObject);
                 assert.isTrue(specificEvent);
                 assert.isTrue(generalEvent);
+
+                merger.override(createSmallObject(), 'number');
+
+                assert.deepEqual(merger.object, expectedObject);
             });
 
             it('override 1 nested object', function () {
@@ -267,6 +275,10 @@ describe("merge-diff", function () {
                 assert.deepEqual(merger.object, expectedObject);
                 assert.isTrue(specificEvent);
                 assert.isTrue(generalEvent);
+
+                merger.delete('number');
+
+                assert.deepEqual(merger.object, expectedObject);
             });
         });
 
