@@ -4,8 +4,10 @@
 /*global describe: false, it: false */
 
 'use strict';
+
 var MergeDiff = require('../');
-var assert = require('assert');
+var chai = require('chai');
+var assert = chai.assert;
 var extend = require('node.extend');
 
 describe("merge-diff", function () {
@@ -170,15 +172,61 @@ describe("merge-diff", function () {
                 var expectedObject = createBaseObject();
                 extend(true, expectedObject.nested.a.b.c, createSmallObject());
 
+
+                var specificEvent = false;
+                merger.on('merge', function () {
+                    if (specificEvent) {
+                        assert.fail();
+                    }
+                    specificEvent = true;
+                });
+                var generalEvent = false;
+                merger.on('change', function () {
+                    if (generalEvent) {
+                        assert.fail();
+                    }
+                    generalEvent = true;
+                });
+
                 merger.merge(createSmallObject(), 'nested.a.b.c');
 
                 assert.deepEqual(merger.object, expectedObject);
+                assert.isTrue(specificEvent);
+                assert.isTrue(generalEvent);
             });
         });
     });
 
     describe("override", function () {
         describe('nested', function () {
+            it('override top level', function () {
+                var merger = new MergeDiff(createBaseObject());
+                var expectedObject = createBaseObject();
+                delete expectedObject.number;
+                expectedObject.number = createSmallObject();
+
+                var specificEvent = false;
+                merger.on('override', function () {
+                    if (specificEvent) {
+                        assert.fail();
+                    }
+                    specificEvent = true;
+                });
+                var generalEvent = false;
+                merger.on('change', function () {
+                    if (generalEvent) {
+                        assert.fail();
+                    }
+                    generalEvent = true;
+                });
+
+                merger.override(createSmallObject(), 'number');
+
+                assert.deepEqual(merger.object, expectedObject);
+                assert.isTrue(specificEvent);
+                assert.isTrue(generalEvent);
+            });
+
             it('override 1 nested object', function () {
                 var merger = new MergeDiff(createBaseObject());
                 var expectedObject = createBaseObject();
@@ -199,9 +247,26 @@ describe("merge-diff", function () {
                 var expectedObject = createBaseObject();
                 delete expectedObject.number;
 
+                var specificEvent = false;
+                merger.on('delete', function () {
+                    if (specificEvent) {
+                        assert.fail();
+                    }
+                    specificEvent = true;
+                });
+                var generalEvent = false;
+                merger.on('change', function () {
+                    if (generalEvent) {
+                        assert.fail();
+                    }
+                    generalEvent = true;
+                });
+
                 merger.delete('number');
 
                 assert.deepEqual(merger.object, expectedObject);
+                assert.isTrue(specificEvent);
+                assert.isTrue(generalEvent);
             });
         });
 
