@@ -6,6 +6,7 @@
 'use strict';
 var MergeDiff = require('../');
 var assert = require('assert');
+var extend = require('node.extend');
 
 describe("merge-diff", function () {
     function createBaseObject() {
@@ -35,6 +36,15 @@ describe("merge-diff", function () {
              return "hello";
              }
              */
+        };
+    }
+
+    function createSmallObject() {
+        return {
+            new1: 'yes',
+            new2: {
+                myobj: true
+            }
         };
     }
 
@@ -138,7 +148,8 @@ describe("merge-diff", function () {
             it('merged object should be the same as expected object', function () {
 
                 merger.on("nested", function (diff) {
-                    console.log('diff', diff.differences);
+                    //console.log('diff', diff.differences);
+                    return undefined;
                 });
 
                 merger.merge({
@@ -153,9 +164,32 @@ describe("merge-diff", function () {
 
         });
 
+        describe('nested', function () {
+            it('change 1 nested object', function () {
+                var merger = new MergeDiff(createBaseObject());
+                var expectedObject = createBaseObject();
+                extend(true, expectedObject.nested.a.b.c, createSmallObject());
+
+                merger.merge(createSmallObject(), 'nested.a.b.c');
+
+                assert.deepEqual(merger.object, expectedObject);
+            });
+        });
     });
 
     describe("override", function () {
+        describe('nested', function () {
+            it('override 1 nested object', function () {
+                var merger = new MergeDiff(createBaseObject());
+                var expectedObject = createBaseObject();
+                delete expectedObject.nested.a.b.c;
+                expectedObject.nested.a.b.c = createSmallObject();
+
+                merger.override(createSmallObject(), 'nested.a.b.c');
+
+                assert.deepEqual(merger.object, expectedObject);
+            });
+        });
     });
 
     describe("delete", function () {
