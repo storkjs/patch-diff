@@ -25,5 +25,6 @@
   "maxstatements": 50,
   "globalstrict": true,
   "validthis": true,
-  "node": true
+  "node": true,
+  "elision": true
 }
