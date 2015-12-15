@@ -245,6 +245,15 @@ describe("merge-diff", function () {
 
                 assert.deepEqual(merger.object, expectedObject);
             });
+
+            it('override array', function () {
+                var merger = new MergeDiff({});
+                var expectedObject = createBaseObject();
+
+                merger.override(createBaseObject(), '');
+
+                assert.deepEqual(merger.object, expectedObject);
+            });
         });
     });
 
