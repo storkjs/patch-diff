@@ -1,6 +1,6 @@
 {
-  "name": "diff-merge",
-  "version": "0.0.6",
+  "name": "merge-diff",
+  "version": "0.0.7",
   "description": "",
   "main": "index.js",
   "directories": {
