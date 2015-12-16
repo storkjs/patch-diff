@@ -1,7 +1,7 @@
 {
   "name": "merge-diff",
-  "version": "0.0.7",
-  "description": "",
+  "version": "0.0.8",
+  "description": "Emits diff events.",
   "main": "index.js",
   "directories": {
     "test": "tests"
