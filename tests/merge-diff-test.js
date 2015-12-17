@@ -319,7 +319,7 @@ describe("merge-diff", function () {
             ];
 
             EventEmitterEnhancer.modifyInstance(merger);
-            merger.else(function (event, data) {
+            merger.else(function (event) {
                 if (expectedEvents.indexOf(event) !== -1) {
                     expectedEvents.splice(expectedEvents.indexOf(event), 1);
                 } else {
