@@ -36,6 +36,7 @@
   "devDependencies": {
     "blanket": "^1.2.1",
     "chai": "^3.4.1",
+    "event-emitter-enhancer": "0.0.62",
     "grunt": "^0.4.5",
     "grunt-blanket": "0.0.9",
     "grunt-cli": "^0.1.13",

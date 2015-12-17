@@ -9,6 +9,7 @@ var MergeDiff = require('../');
 var chai = require('chai');
 var assert = chai.assert;
 var extend = require('node.extend');
+var EventEmitterEnhancer = require('event-emitter-enhancer');
 
 describe("merge-diff", function () {
     function createBaseObject() {
@@ -172,7 +173,6 @@ describe("merge-diff", function () {
                 var expectedObject = createBaseObject();
                 extend(true, expectedObject.nested.a.b.c, createSmallObject());
 
-
                 var specificEvent = false;
                 merger.on('merge', function () {
                     if (specificEvent) {
@@ -305,6 +305,39 @@ describe("merge-diff", function () {
     });
 
     describe("differences events", function () {
+        it('add', function () {
+            var merger = new MergeDiff({}, {
+                pathEventPrefix: 'TEST:'
+            });
 
+            var expectedEvents = [
+                'merge',
+                'change',
+                'TEST:*',
+                'TEST:subObject',
+                'TEST:subObject.sub2'
+            ];
+
+            EventEmitterEnhancer.modifyInstance(merger);
+            merger.else(function (event, data) {
+                if (expectedEvents.indexOf(event) !== -1) {
+                    expectedEvents.splice(expectedEvents.indexOf(event), 1);
+                } else {
+                    assert.fail(event);
+                }
+            });
+
+            merger.merge({
+                key: 1,
+                subObject: {
+                    key: 2,
+                    sub2: {
+                        key: 3
+                    }
+                }
+            });
+
+            assert.equal(0, expectedEvents.length);
+        });
     });
 });
