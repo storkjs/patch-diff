@@ -5,13 +5,13 @@
 
 'use strict';
 
-var MergeDiff = require('../');
+var PatchDiff = require('../');
 var chai = require('chai');
 var assert = chai.assert;
 var extend = require('node.extend');
 var EventEmitterEnhancer = require('event-emitter-enhancer');
 
-describe("merge-diff", function () {
+describe("apply-diff", function () {
     function createBaseObject() {
         return {
             string: "string",
@@ -51,152 +51,152 @@ describe("merge-diff", function () {
         };
     }
 
-    describe("merge", function () {
+    describe("apply", function () {
         describe('merging the number 20 to the path "string"', function () {
 
-            var merger = new MergeDiff(createBaseObject());
+            var patcher = new PatchDiff(createBaseObject());
             var expectedObject = createBaseObject();
 
             expectedObject.string = 20;
 
             it('merged object should be the same as expected object', function () {
-                merger.merge(20, 'string');
-                assert.deepEqual(merger.object, expectedObject);
+                patcher.apply(20, 'string');
+                assert.deepEqual(patcher.object, expectedObject);
             });
 
         });
 
         describe('merging the string "test" to 3 existing properties with no path (to root)', function () {
 
-            var merger = new MergeDiff(createBaseObject());
+            var patcher = new PatchDiff(createBaseObject());
             var originalObject = createBaseObject();
 
             it('merged object should be the same as expected object', function () {
 
-                merger.merge({
+                patcher.apply({
                     string: "test",
                     boolean: "test",
                     number: "test"
                 });
 
-                assert.equal(merger.object.string, 'test');
-                assert.equal(merger.object.boolean, 'test');
-                assert.equal(merger.object.number, 'test');
-                assert.notEqual(merger.object.array, 'test');
-                assert.deepEqual(merger.object.nested, originalObject.nested);
+                assert.equal(patcher.object.string, 'test');
+                assert.equal(patcher.object.boolean, 'test');
+                assert.equal(patcher.object.number, 'test');
+                assert.notEqual(patcher.object.array, 'test');
+                assert.deepEqual(patcher.object.nested, originalObject.nested);
             });
 
         });
 
         describe('merging 2 string properties and a new object with no path (to root)', function () {
 
-            var merger = new MergeDiff(createBaseObject());
+            var patcher = new PatchDiff(createBaseObject());
 
             it('merged object should be the same as expected object', function () {
 
-                merger.merge({
+                patcher.apply({
                     string: "test",
                     boolean: false,
                     newobject: {"test": "test"}
                 });
 
-                assert.equal(merger.get('string'), 'test');
-                assert.equal(merger.object.boolean, false);
-                assert.deepEqual(merger.object.newobject, {test: 'test'});
+                assert.equal(patcher.get('string'), 'test');
+                assert.equal(patcher.object.boolean, false);
+                assert.deepEqual(patcher.object.newobject, {test: 'test'});
             });
 
         });
 
         describe('merging 4 items to array existing, modified, new and deleted', function () {
 
-            var merger = new MergeDiff(createBaseObject());
+            var patcher = new PatchDiff(createBaseObject());
 
             it('1 item should be modified 1 deleted and one added', function () {
 
-                merger.on("array", function (diff) {
-                    assert.deepEqual(diff.differences, {'2': 'test', 4: merger.options.deleteKeyword, 7: "test2"});
+                patcher.on("array", function (diff) {
+                    assert.deepEqual(diff.differences, {'2': 'test', 4: patcher.options.deleteKeyword, 7: "test2"});
                 });
 
-                merger.merge({
-                    array: {1: 1, '2': 'test', 4: merger.options.deleteKeyword, 7: "test2"}
+                patcher.apply({
+                    array: {1: 1, '2': 'test', 4: patcher.options.deleteKeyword, 7: "test2"}
                 });
 
                 //[0, 1, '2', false, {prop: 'val'}]
                 //[0, 1, 'test', false, null, null, 'test2]
 
-                assert.deepEqual(merger.object.array, [0, 1, 'test', false, , , 'test2']);
+                assert.deepEqual(patcher.object.array, [0, 1, 'test', false, , , 'test2']);
             });
 
         });
 
         describe('delete a string and boolean', function () {
 
-            var merger = new MergeDiff(createBaseObject());
+            var patcher = new PatchDiff(createBaseObject());
 
             it('merged object should be the same as expected object', function () {
 
-                merger.merge({
-                    boolean: merger.options.deleteKeyword,
-                    string: merger.options.deleteKeyword
+                patcher.apply({
+                    boolean: patcher.options.deleteKeyword,
+                    string: patcher.options.deleteKeyword
                 });
 
             });
 
         });
 
-        describe('merge nested object to "nested.a"', function () {
+        describe('apply nested object to "nested.a"', function () {
 
-            var merger = new MergeDiff(createBaseObject());
+            var patcher = new PatchDiff(createBaseObject());
 
             it('merged object should be the same as expected object', function () {
 
-                merger.on("nested", function (diff) {
+                patcher.on("nested", function (diff) {
                     //console.log('diff', diff.differences);
                     return undefined;
                 });
 
-                merger.merge({
+                patcher.apply({
                     b: {'added': 'asd', c: {d: {property2: undefined}}}
                 }, 'nested.a');
 
                 //[0, 1, '2', false, {prop: 'val'}]
                 //[0, 1, 'test', false, null, null, 'test2]
 
-                //expect(merger.object).property('array').to.deep.equal([0, 1, 'test', false, undefined, undefined, 'test2']);
+                //expect(patcher.object).property('array').to.deep.equal([0, 1, 'test', false, undefined, undefined, 'test2']);
             });
 
         });
 
         describe('nested', function () {
             it('change 1 nested object', function () {
-                var merger = new MergeDiff(createBaseObject());
+                var patcher = new PatchDiff(createBaseObject());
                 var expectedObject = createBaseObject();
                 extend(true, expectedObject.nested.a.b.c, createSmallObject());
 
                 var specificEvent = false;
-                merger.on('merge', function () {
+                patcher.on('patch', function () {
                     if (specificEvent) {
                         assert.fail();
                     }
                     specificEvent = true;
                 });
                 var generalEvent = false;
-                merger.on('change', function () {
+                patcher.on('change', function () {
                     if (generalEvent) {
                         assert.fail();
                     }
                     generalEvent = true;
                 });
 
-                merger.merge(createSmallObject(), 'nested.a.b.c');
+                patcher.apply(createSmallObject(), 'nested.a.b.c');
 
-                assert.deepEqual(merger.object, expectedObject);
+                assert.deepEqual(patcher.object, expectedObject);
                 assert.isTrue(specificEvent);
                 assert.isTrue(generalEvent);
 
-                merger.merge(createSmallObject(), 'nested.a.b.c');
+                patcher.apply(createSmallObject(), 'nested.a.b.c');
 
-                assert.deepEqual(merger.object, expectedObject);
+                assert.deepEqual(patcher.object, expectedObject);
             });
         });
     });
@@ -204,55 +204,55 @@ describe("merge-diff", function () {
     describe("override", function () {
         describe('nested', function () {
             it('override top level', function () {
-                var merger = new MergeDiff(createBaseObject());
+                var patcher = new PatchDiff(createBaseObject());
                 var expectedObject = createBaseObject();
                 delete expectedObject.number;
                 expectedObject.number = createSmallObject();
 
                 var specificEvent = false;
-                merger.on('override', function () {
+                patcher.on('override', function () {
                     if (specificEvent) {
                         assert.fail();
                     }
                     specificEvent = true;
                 });
                 var generalEvent = false;
-                merger.on('change', function () {
+                patcher.on('change', function () {
                     if (generalEvent) {
                         assert.fail();
                     }
                     generalEvent = true;
                 });
 
-                merger.override(createSmallObject(), 'number');
+                patcher.override(createSmallObject(), 'number');
 
-                assert.deepEqual(merger.object, expectedObject);
+                assert.deepEqual(patcher.object, expectedObject);
                 assert.isTrue(specificEvent);
                 assert.isTrue(generalEvent);
 
-                merger.override(createSmallObject(), 'number');
+                patcher.override(createSmallObject(), 'number');
 
-                assert.deepEqual(merger.object, expectedObject);
+                assert.deepEqual(patcher.object, expectedObject);
             });
 
             it('override 1 nested object', function () {
-                var merger = new MergeDiff(createBaseObject());
+                var patcher = new PatchDiff(createBaseObject());
                 var expectedObject = createBaseObject();
                 delete expectedObject.nested.a.b.c;
                 expectedObject.nested.a.b.c = createSmallObject();
 
-                merger.override(createSmallObject(), 'nested.a.b.c');
+                patcher.override(createSmallObject(), 'nested.a.b.c');
 
-                assert.deepEqual(merger.object, expectedObject);
+                assert.deepEqual(patcher.object, expectedObject);
             });
 
             it('override array', function () {
-                var merger = new MergeDiff({});
+                var patcher = new PatchDiff({});
                 var expectedObject = createBaseObject();
 
-                merger.override(createBaseObject(), '');
+                patcher.override(createBaseObject(), '');
 
-                assert.deepEqual(merger.object, expectedObject);
+                assert.deepEqual(patcher.object, expectedObject);
             });
         });
     });
@@ -260,66 +260,66 @@ describe("merge-diff", function () {
     describe("delete", function () {
         describe('primitives', function () {
             it('delete 1 primitive', function () {
-                var merger = new MergeDiff(createBaseObject());
+                var patcher = new PatchDiff(createBaseObject());
                 var expectedObject = createBaseObject();
                 delete expectedObject.number;
 
                 var specificEvent = false;
-                merger.on('delete', function () {
+                patcher.on('delete', function () {
                     if (specificEvent) {
                         assert.fail();
                     }
                     specificEvent = true;
                 });
                 var generalEvent = false;
-                merger.on('change', function () {
+                patcher.on('change', function () {
                     if (generalEvent) {
                         assert.fail();
                     }
                     generalEvent = true;
                 });
 
-                merger.delete('number');
+                patcher.delete('number');
 
-                assert.deepEqual(merger.object, expectedObject);
+                assert.deepEqual(patcher.object, expectedObject);
                 assert.isTrue(specificEvent);
                 assert.isTrue(generalEvent);
 
-                merger.delete('number');
+                patcher.delete('number');
 
-                assert.deepEqual(merger.object, expectedObject);
+                assert.deepEqual(patcher.object, expectedObject);
             });
         });
 
         describe('nested', function () {
             it('delete 1 nested object', function () {
-                var merger = new MergeDiff(createBaseObject());
+                var patcher = new PatchDiff(createBaseObject());
                 var expectedObject = createBaseObject();
                 delete expectedObject.nested.a.b.c;
 
-                merger.delete('nested.a.b.c');
+                patcher.delete('nested.a.b.c');
 
-                assert.deepEqual(merger.object, expectedObject);
+                assert.deepEqual(patcher.object, expectedObject);
             });
         });
     });
 
     describe("differences events", function () {
         it('add', function () {
-            var merger = new MergeDiff({}, {
+            var patcher = new PatchDiff({}, {
                 pathEventPrefix: 'TEST:'
             });
 
             var expectedEvents = [
-                'merge',
+                'patch',
                 'change',
                 'TEST:*',
                 'TEST:subObject',
                 'TEST:subObject.sub2'
             ];
 
-            EventEmitterEnhancer.modifyInstance(merger);
-            merger.else(function (event) {
+            EventEmitterEnhancer.modifyInstance(patcher);
+            patcher.else(function (event) {
                 if (expectedEvents.indexOf(event) !== -1) {
                     expectedEvents.splice(expectedEvents.indexOf(event), 1);
                 } else {
@@ -327,7 +327,7 @@ describe("merge-diff", function () {
                 }
             });
 
-            merger.merge({
+            patcher.apply({
                 key: 1,
                 subObject: {
                     key: 2,
