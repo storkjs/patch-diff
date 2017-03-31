@@ -56,3 +56,21 @@ merger1.override({prop2: {newobj: 'new property'}}, 'myRoot.item2'); // splice t
 
 console.log('obj1=', JSON.stringify(obj1, 4, 4));
 console.log('obj2=', JSON.stringify(obj2, 4, 4));
+
+
+const PatcherProxy = require('../lib/patcher-proxy');
+
+let pp = PatcherProxy.create(merger1, 'myRoot');
+
+console.log('obj2 before proxy changes',  JSON.stringify(obj2, 4, 4));
+pp.item2.prop2 = 'test';
+pp.item3.aaa = 'tes2';
+pp.item3.bbb = 'test3';
+delete pp.item3.bbb;
+delete pp.item.prop;
+setTimeout(() => {
+    console.log('obj2 after proxy changes',  JSON.stringify(obj2, 4, 4));
+    pp.item2 = {
+        prop: 'overriden'
+    };
+}, 0);
