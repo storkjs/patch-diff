@@ -192,15 +192,16 @@ module.exports = {
             "error",
             "never"
         ],
-        "valid-jsdoc": [
-            "error",
-            {
-                "requireReturn": false,
-                "prefer": {
-                    "return": "returns"
-                }
-            }
-        ],
+        "valid-jsdoc": "off",
+        // "valid-jsdoc": [
+        //     "error",
+        //     {
+        //         "requireReturn": false,
+        //         "prefer": {
+        //             "return": "returns"
+        //         }
+        //     }
+        // ],
         "vars-on-top": "off",
         "yield-star-spacing": [
             "error",
