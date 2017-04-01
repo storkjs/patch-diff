@@ -74,8 +74,8 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'clean:target',
         'copy:coverage',
-        'blanket:full',
-        'mochaTest:coverageLCOV',
-        'coveralls:full'
+//        'blanket:full',
+//        'mochaTest:coverageLCOV',
+ //       'coveralls:full'
     ]);
 };
