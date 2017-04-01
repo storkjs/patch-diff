@@ -44,7 +44,7 @@ Assuming we create a patcher for an empty object with `patcher = new PatchDiff({
 
 `PatchDiff` extends [EventEmitter](https://nodejs.org/api/events.html).
 
-When `apply`, `override` and `remove` methods modify the wrapped object, they emit events for each change.
+When `apply`, `override` and `remove` methods modify the wrapped object, they emit an [event](https://nodejs.org/api/events.html) for each change.
 
 Each leaf changed by the `apply`, `override` and `remove` methods is checked against the wrapped object at the `path` specified for changing.
 If there is a difference it is tracked and emitted as a patch.
