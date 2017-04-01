@@ -6,6 +6,8 @@ module.exports = {
     },
     "extends": "eslint:all",
     "rules": {
+        "no-ternary": "off",
+        "multiline-ternary": "off",
         "no-underscore-dangle": "off",
         "accessor-pairs": "off",
         "array-bracket-spacing": [
