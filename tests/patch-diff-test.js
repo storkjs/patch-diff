@@ -2,7 +2,6 @@
  * Created by barakedry on 6/21/15.
  */
 /*global describe: false, it: false */
-
 'use strict';
 
 var PatchDiff = require('../');
@@ -11,24 +10,26 @@ var assert = chai.assert;
 var extend = require('node.extend');
 var EventEmitterEnhancer = require('event-emitter-enhancer');
 
-describe("apply-diff", function () {
+describe('apply-diff', function () {
     function createBaseObject() {
         return {
-            string: "string",
+            string: 'string',
             number: 5,
             boolean: true,
-            array: [0, 1, '2', false, {prop: 'val'}],
+            array: [0, 1, '2', false, {
+                prop: 'val'
+            }],
             obj: {
-                property: "value1",
-                property2: "value2"
+                property: 'value1',
+                property2: 'value2'
             },
             nested: {
                 a: {
                     b: {
                         c: {
                             d: {
-                                property: "value1",
-                                property2: "value2"
+                                property: 'value1',
+                                property2: 'value2'
                             }
                         }
                     }
@@ -51,7 +52,7 @@ describe("apply-diff", function () {
         };
     }
 
-    describe("apply", function () {
+    describe('apply', function () {
         describe('merging the number 20 to the path "string"', function () {
 
             var patcher = new PatchDiff(createBaseObject());
@@ -74,9 +75,9 @@ describe("apply-diff", function () {
             it('merged object should be the same as expected object', function () {
 
                 patcher.apply({
-                    string: "test",
-                    boolean: "test",
-                    number: "test"
+                    string: 'test',
+                    boolean: 'test',
+                    number: 'test'
                 });
 
                 assert.equal(patcher.object.string, 'test');
@@ -95,14 +96,18 @@ describe("apply-diff", function () {
             it('merged object should be the same as expected object', function () {
 
                 patcher.apply({
-                    string: "test",
+                    string: 'test',
                     boolean: false,
-                    newobject: {"test": "test"}
+                    newobject: {
+                        test: 'test'
+                    }
                 });
 
                 assert.equal(patcher.get('string'), 'test');
                 assert.equal(patcher.object.boolean, false);
-                assert.deepEqual(patcher.object.newobject, {test: 'test'});
+                assert.deepEqual(patcher.object.newobject, {
+                    test: 'test'
+                });
             });
 
         });
@@ -113,12 +118,21 @@ describe("apply-diff", function () {
 
             it('1 item should be modified 1 deleted and one added', function () {
 
-                patcher.on("array", function (diff) {
-                    assert.deepEqual(diff.differences, {'2': 'test', 4: patcher.options.deleteKeyword, 7: "test2"});
+                patcher.on('array', function (diff) {
+                    assert.deepEqual(diff.differences, {
+                        2: 'test',
+                        4: patcher.options.deleteKeyword,
+                        7: 'test2'
+                    });
                 });
 
                 patcher.apply({
-                    array: {1: 1, '2': 'test', 4: patcher.options.deleteKeyword, 7: "test2"}
+                    array: {
+                        1: 1,
+                        2: 'test',
+                        4: patcher.options.deleteKeyword,
+                        7: 'test2'
+                    }
                 });
 
                 //[0, 1, '2', false, {prop: 'val'}]
@@ -131,7 +145,7 @@ describe("apply-diff", function () {
 
         describe('remove a string and boolean', function () {
 
-            var patcher = new PatchDiff(createBaseObject());
+            let patcher = new PatchDiff(createBaseObject());
 
             it('merged object should be the same as expected object', function () {
 
@@ -150,13 +164,21 @@ describe("apply-diff", function () {
 
             it('merged object should be the same as expected object', function () {
 
-                patcher.on("nested", function (diff) {
+                // patcher.on('nested', function (diff) {
+                patcher.on('nested', function () {
                     //console.log('diff', diff.differences);
                     return undefined;
                 });
 
                 patcher.apply({
-                    b: {'added': 'asd', c: {d: {property2: undefined}}}
+                    b: {
+                        added: 'asd',
+                        c: {
+                            d: {
+                                property2: undefined
+                            }
+                        }
+                    }
                 }, 'nested.a');
 
                 //[0, 1, '2', false, {prop: 'val'}]
@@ -193,7 +215,7 @@ describe("apply-diff", function () {
         });
     });
 
-    describe("override", function () {
+    describe('override', function () {
         describe('nested', function () {
             it('override top level', function () {
                 var patcher = new PatchDiff(createBaseObject());
@@ -241,7 +263,7 @@ describe("apply-diff", function () {
         });
     });
 
-    describe("remove", function () {
+    describe('remove', function () {
         describe('primitives', function () {
             it('remove 1 primitive', function () {
                 var patcher = new PatchDiff(createBaseObject());
@@ -281,7 +303,7 @@ describe("apply-diff", function () {
         });
     });
 
-    describe("differences events", function () {
+    describe('differences events', function () {
         it('add', function () {
             var patcher = new PatchDiff({}, {
                 pathEventPrefix: 'TEST:'
