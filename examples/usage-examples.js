@@ -25,7 +25,7 @@ console.log('final', patcher.get());
 
 
 // add event handler for changes on path myRoot.array
-patcher.on('myRoot.array', (diff) => {
+patcher.observe('myRoot.array', (diff) => {
     console.log('myRoot.array change', diff);
 });
 
@@ -43,7 +43,7 @@ let patcher1 = new PatchDiff(obj1);
 let patcher2 = new PatchDiff(obj2);
 
 // handle root changes
-patcher1.on('myRoot', (diff) => {
+patcher1.observe('myRoot', (diff) => {
     // patch obj2 with differences from obj1
     patcher2.apply(diff.differences, 'myRoot');
 });
