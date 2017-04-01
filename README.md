@@ -17,7 +17,7 @@ But feel free to fork, add some tests, and open some bugs if you find them.
 
 ## Usage
 
-a `PatchDiff` instance wraps an object and provides a convenient API for updating it while emitting events about every change.
+A `PatchDiff` instance wraps an object and provides a convenient API for updating it while emitting events about every change.
 
 It has the following api:
 
@@ -34,8 +34,31 @@ Assuming we create a patcher for an empty object with `patcher = new PatchDiff({
 
 
   
+### Wrap any JS object with a `PatchDiff`
+```
+Barak!!!!
+```
 
+### Create a proxy for your object
+```
+Barak!!!!
+```
 
+### Link any arbitrary JS object to your `PatchDiff`
+```
+Barak!!!!
+```
+
+### Update your original object
+```
+Barak!!!!
+```
+
+### Your linked object is now magically updated and is perfeclty identical to your original object
+Seems trivial, **BUT**, you can do it over the network:
+```
+Barak!!!!
+```
 
 
 ## Concepts
