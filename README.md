@@ -49,16 +49,23 @@ Barak!!!!
 Barak!!!!
 ```
 
-### Update your original object
+### Make changes to your **proxy** (not your original JS object)
 ```
 Barak!!!!
 ```
 
-### Your linked object is now magically updated and is perfeclty identical to your original object
+### Your original object **AND** linked object are now magically updated
+Both are perfectly identical. Both contain your change. The proxy is also the identical to both.
+
 Seems trivial, **BUT**, you can do it over the network:
 ```
 Barak!!!!
 ```
+
+
+### **Important**
+Only updates *through proxy* will propagate to linked object.
+Direct updates to original JS object will cause inconsistencies between original and linked objects.
 
 
 ## Concepts
