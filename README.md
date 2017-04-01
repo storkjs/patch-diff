@@ -26,7 +26,7 @@ Assuming we create a patcher for an empty object with `patcher = new PatchDiff({
 - `patcher.remove(path)` - removes the value at path
 - `patcher.apply(patch, path)` - this is the most important one, it allows you to patch the wrapped object with partial object (the patch)
   - The patch structure should be the same as the replaced part on a specified path.
-  Undefined values are ignored while every other value is treated as an assignment
+  `undefined` values are ignored while every other value is treated as an assignment
 - `patcher.override(fullDocument, path, options)` - sort of like assign or set.
   Completly replaces the previous values at the specified `path` with `fullDocument`.
 
