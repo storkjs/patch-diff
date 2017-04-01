@@ -4,15 +4,24 @@
 [![License](https://img.shields.io/npm/l/patch-diff.svg?style=flat)](https://github.com/storkjs/patch-diff/blob/master/LICENSE) [![Total Downloads](https://img.shields.io/npm/dt/patch-diff.svg?style=flat)](https://www.npmjs.org/package/patch-diff) [![Dependency Status](https://david-dm.org/storkjs/patch-diff.svg)](https://david-dm.org/storkjs/patch-diff) [![devDependency Status](https://david-dm.org/storkjs/patch-diff/dev-status.svg)](https://david-dm.org/storkjs/patch-diff#info=devDependencies)<br>
 [![Retire Status](http://retire.insecurity.today/api/image?uri=https://raw.githubusercontent.com/storkjs/patch-diff/master/package.json)](http://retire.insecurity.today/api/image?uri=https://raw.githubusercontent.com/storkjs/patch-diff/master/package.json)
 
-> Emits diff events.
+Wrap ANY JSON object with a proxy that seamlessly lets you get notified about any changes to your object as events.
+
+Seamlessly link any third-party object to your proxy to keep it constantly updated without hassle.
+
+
+#### This Library is currently under initial development! - do not use in production
+But feel free to fork, add some tests, and open some bugs if you find them.
+
 
 ## Installation
 
-## usage
+## Usage
 
-a `PatchDiff` instance wraps an object
+a `PatchDiff` instance wraps an object and provides a convenient API for updating it while emitting events about every change.
 
 It has the following api:
+
+Assuming we create a patcher for an empty object with `patcher = new PatchDiff({});`
 - `patcher.get(path)` - returns the value at path of object (json path), this is a reference
 - `patcher.remove(path)` - removes the value at path
 - `patcher.apply(patch, path)` - this is the most important one, it allows you to patch the wrapped object with partial object (the patch)
@@ -20,23 +29,53 @@ It has the following api:
   Completly replaces the previous values at the specificed `path` with `fullDocument`.
   The patch structure should be the same on a specific path, undefined values are ignored while every other is treated as assignments
 
+`apply`, `override` and `remove` methods modify the wrapped object, emitting events for each change
 
-
-
-apply, override and remove methods modifies the wrapped object
 
   
-each leaf in the patch is checked agains the matching wrapped object tree at the path, if there is a difference it is tracked and emitted
 
-  
-PatchDiff extends EventEmitter
 
-  
-this means you can add event handlers
 
-  
-event names are the path you want to listen to changes on
 
 ## Concepts
 
-### This Library is currently in initial development!
+### How events are emitted
+
+`PatchDiff` extends `EventEmitter`.
+
+When `apply`, `override` and `remove` methods modify the wrapped object, they emit events for each change.
+
+Each leaf changed by the `apply`, `override` and `remove` methods is checked against the wrapped object at the `path` specified for changing.
+If there is a difference it is tracked and emitted as a patch.
+
+### Event handlers
+
+TBD - barak?
+
+### Event names
+
+You are here because you want to listen to events. The event naming convention follows the JSON structure.
+
+e.g.
+
+Given object
+```
+{ hey:   'hey value',
+  there: 'there value'
+}
+```
+changes to `hey value` will be broad-cast to anyone listening to `hey` or `*`.
+
+`*` is a wildcard used for retrieving all events for an object.
+
+Given object
+```
+{
+    hey: {
+        hey1: 'hey1 value',
+        hey2: 'hey2 value'
+    },
+    there: 'there value'
+}
+```
+changes to `hey1 value` will be broad-cast to anyone listening to `hey.hey1`, `hey` or `*`.
