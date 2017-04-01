@@ -129,7 +129,7 @@ describe("apply-diff", function () {
 
         });
 
-        describe('delete a string and boolean', function () {
+        describe('remove a string and boolean', function () {
 
             var patcher = new PatchDiff(createBaseObject());
 
@@ -173,15 +173,8 @@ describe("apply-diff", function () {
                 var expectedObject = createBaseObject();
                 extend(true, expectedObject.nested.a.b.c, createSmallObject());
 
-                var specificEvent = false;
-                patcher.on('patch', function () {
-                    if (specificEvent) {
-                        assert.fail();
-                    }
-                    specificEvent = true;
-                });
                 var generalEvent = false;
-                patcher.on('change', function () {
+                patcher.on('nested', function () {
                     if (generalEvent) {
                         assert.fail();
                     }
@@ -191,7 +184,6 @@ describe("apply-diff", function () {
                 patcher.apply(createSmallObject(), 'nested.a.b.c');
 
                 assert.deepEqual(patcher.object, expectedObject);
-                assert.isTrue(specificEvent);
                 assert.isTrue(generalEvent);
 
                 patcher.apply(createSmallObject(), 'nested.a.b.c');
@@ -209,15 +201,8 @@ describe("apply-diff", function () {
                 delete expectedObject.number;
                 expectedObject.number = createSmallObject();
 
-                var specificEvent = false;
-                patcher.on('override', function () {
-                    if (specificEvent) {
-                        assert.fail();
-                    }
-                    specificEvent = true;
-                });
                 var generalEvent = false;
-                patcher.on('change', function () {
+                patcher.on('number', function () {
                     if (generalEvent) {
                         assert.fail();
                     }
@@ -227,7 +212,6 @@ describe("apply-diff", function () {
                 patcher.override(createSmallObject(), 'number');
 
                 assert.deepEqual(patcher.object, expectedObject);
-                assert.isTrue(specificEvent);
                 assert.isTrue(generalEvent);
 
                 patcher.override(createSmallObject(), 'number');
@@ -257,47 +241,40 @@ describe("apply-diff", function () {
         });
     });
 
-    describe("delete", function () {
+    describe("remove", function () {
         describe('primitives', function () {
-            it('delete 1 primitive', function () {
+            it('remove 1 primitive', function () {
                 var patcher = new PatchDiff(createBaseObject());
                 var expectedObject = createBaseObject();
                 delete expectedObject.number;
 
-                var specificEvent = false;
-                patcher.on('delete', function () {
-                    if (specificEvent) {
-                        assert.fail();
-                    }
-                    specificEvent = true;
-                });
                 var generalEvent = false;
-                patcher.on('change', function () {
+                patcher.on('*', function () {
                     if (generalEvent) {
                         assert.fail();
                     }
                     generalEvent = true;
                 });
 
-                patcher.delete('number');
+
+                patcher.remove('number');
 
                 assert.deepEqual(patcher.object, expectedObject);
-                assert.isTrue(specificEvent);
                 assert.isTrue(generalEvent);
 
-                patcher.delete('number');
+                patcher.remove('number');
 
                 assert.deepEqual(patcher.object, expectedObject);
             });
         });
 
         describe('nested', function () {
-            it('delete 1 nested object', function () {
+            it('remove 1 nested object', function () {
                 var patcher = new PatchDiff(createBaseObject());
                 var expectedObject = createBaseObject();
                 delete expectedObject.nested.a.b.c;
 
-                patcher.delete('nested.a.b.c');
+                patcher.remove('nested.a.b.c');
 
                 assert.deepEqual(patcher.object, expectedObject);
             });
@@ -311,11 +288,9 @@ describe("apply-diff", function () {
             });
 
             var expectedEvents = [
-                'patch',
-                'change',
-                'TEST:*',
-                'TEST:subObject',
-                'TEST:subObject.sub2'
+                '*',
+                'subObject',
+                'subObject.sub2'
             ];
 
             EventEmitterEnhancer.modifyInstance(patcher);

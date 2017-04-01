@@ -13,19 +13,19 @@ let patcher = new PatchDiff({
 });
 
 // add event handler for changes on path myRoot.item
-patcher.on('PATH:myRoot.item', (diff) => {
+patcher.on('myRoot.item', (diff) => {
     console.log('myRoot.item change', diff);
 });
 
 patcher.apply({myRoot: {item: {prop: 'added'}}});
 patcher.apply({prop: 'changed'}, 'myRoot.item');
 patcher.override({myRoot: {item: { aDifferentProp: 'hi'}}}); // override enforce a specific state
-patcher.apply({item: {aDifferentProp: patcher.options.deleteKeyword}}, 'myRoot'); // delete aDifferentProp key
+patcher.apply({item: {aDifferentProp: patcher.options.deleteKeyword}}, 'myRoot'); // remove aDifferentProp key
 console.log('final', patcher.get());
 
 
 // add event handler for changes on path myRoot.array
-patcher.on('PATH:myRoot.array', (diff) => {
+patcher.on('myRoot.array', (diff) => {
     console.log('myRoot.array change', diff);
 });
 
@@ -43,7 +43,7 @@ let patcher1 = new PatchDiff(obj1);
 let patcher2 = new PatchDiff(obj2);
 
 // handle root changes
-patcher1.on('PATH:myRoot', (diff) => {
+patcher1.on('myRoot', (diff) => {
     // patch obj2 with differences from obj1
     patcher2.apply(diff.differences, 'myRoot');
 });
@@ -68,8 +68,8 @@ console.log('obj2 before proxy changes', JSON.stringify(obj2, 4, 4));
 pp.item2.prop2 = 'test'; // change value of existing property
 pp.item3.aaa = 'tes2';  // define and assign new property to existing object
 pp.item3.bbb = 'test3';  // define and assign new property to existing object
-delete pp.item3.bbb; // delete property that didn't exists before
-delete pp.item.prop; // delete existing property
+delete pp.item3.bbb; // remove property that didn't exists before
+delete pp.item.prop; // remove existing property
 setTimeout(() => {
     console.log('obj2 after proxy changes', JSON.stringify(obj2, 4, 4));
     pp.item2 = {
