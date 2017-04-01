@@ -42,7 +42,7 @@ Assuming we create a patcher for an empty object with `patcher = new PatchDiff({
 
 ### How events are emitted
 
-`PatchDiff` extends `EventEmitter`.
+`PatchDiff` extends [EventEmitter](https://nodejs.org/api/events.html).
 
 When `apply`, `override` and `remove` methods modify the wrapped object, they emit events for each change.
 
