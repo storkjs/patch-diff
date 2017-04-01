@@ -6,6 +6,8 @@ module.exports = {
     },
     "extends": "eslint:all",
     "rules": {
+        "no-self-compare": "off",
+        "no-sparse-arrays": "off",
         "no-ternary": "off",
         "multiline-ternary": "off",
         "no-underscore-dangle": "off",
@@ -51,6 +53,7 @@ module.exports = {
         "func-names": "off",
         "func-style": "off",
         "global-require": "off",
+        "require-jsdoc": "off",
         "id-blacklist": "off",
         "id-length": [
             "error",
