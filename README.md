@@ -6,7 +6,7 @@
 
 > Wrap ANY JSON object with a proxy that seamlessly lets you get notified about any changes to your object as events.
 
-> Seamlessly link any third-party object to your proxy to keep it constantly updated without hassle.
+> Seamlessly link any JS object to your proxy to keep it constantly updated without hassle.
 
 
 #### This Library is currently under initial development! - do not use in production
