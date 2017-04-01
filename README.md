@@ -56,7 +56,7 @@ TBD - barak?
 
 You are here because you want to listen to events. The event naming convention follows the JSON structure.
 
-e.g.
+#### Simple object
 
 Given object
 ```
@@ -68,6 +68,8 @@ changes to `hey value` will be broad-cast to anyone listening to `hey` or `*`.
 
 `*` is a wildcard used for retrieving all events for an object.
 
+
+#### More complex hierarchy
 Given object
 ```
 {
@@ -79,3 +81,8 @@ Given object
 }
 ```
 changes to `hey1 value` will be broad-cast to anyone listening to `hey.hey1`, `hey` or `*`.
+
+
+#### Array
+
+#### Array in a more complex hierarchy
