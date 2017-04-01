@@ -25,9 +25,10 @@ Assuming we create a patcher for an empty object with `patcher = new PatchDiff({
 - `patcher.get(path)` - returns the value at path of object (json path), this is a reference
 - `patcher.remove(path)` - removes the value at path
 - `patcher.apply(patch, path)` - this is the most important one, it allows you to patch the wrapped object with partial object (the patch)
+  - The patch structure should be the same as the replaced part on a specified path.
+  Undefined values are ignored while every other value is treated as an assignment
 - `patcher.override(fullDocument, path, options)` - sort of like assign or set.
-  Completly replaces the previous values at the specificed `path` with `fullDocument`.
-  The patch structure should be the same on a specific path, undefined values are ignored while every other is treated as assignments
+  Completly replaces the previous values at the specified `path` with `fullDocument`.
 
 `apply`, `override` and `remove` methods modify the wrapped object, emitting events for each change
 
