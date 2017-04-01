@@ -10,19 +10,14 @@
 
 ## usage
 
-```
-PatchDiff instance wraps an object
+a `PatchDiff` instance wraps an object
 
-it has the following api
-
-patcher.get(path) // returns the value at path of object (json path), this is a reference
-
-patcher.remove(path) removes the value at path
-
-patcher.apply(patch, path) // this is the most important one, it allows you to patch the wrapped object with partial object (the patch)
+It has the following api:
+- **`patcher.get(path)`** - patcher.get(path) - returns the value at path of object (json path), this is a reference
+- **`patcher.remove(path)`** - removes the value at path
+- **`patcher.apply(patch, path)`** - this is the most important one, it allows you to patch the wrapped object with partial object (the patch)
 
 the patch structure should be the same on a specific path, undefined values are ignored while every other is treated as assiginemnts
-```
 
 ## Concepts
 
