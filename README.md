@@ -16,8 +16,26 @@ It has the following api:
 - `patcher.get(path)` - returns the value at path of object (json path), this is a reference
 - `patcher.remove(path)` - removes the value at path
 - `patcher.apply(patch, path)` - this is the most important one, it allows you to patch the wrapped object with partial object (the patch)
+- `patcher.override(fullDocument, path, options)` - sort of like assign or set.
+  Completly replaces the previous values at the specificed `path` with `fullDocument`.
+  The patch structure should be the same on a specific path, undefined values are ignored while every other is treated as assignments
 
-the patch structure should be the same on a specific path, undefined values are ignored while every other is treated as assiginemnts
+
+
+
+apply, override and remove methods modifies the wrapped object
+
+  
+each leaf in the patch is checked agains the matching wrapped object tree at the path, if there is a difference it is tracked and emitted
+
+  
+PatchDiff extends EventEmitter
+
+  
+this means you can add event handlers
+
+  
+event names are the path you want to listen to changes on
 
 ## Concepts
 
