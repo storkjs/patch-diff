@@ -70,6 +70,7 @@ pp.item3.aaa = 'tes2';  // define and assign new property to existing object
 pp.item3.bbb = 'test3';  // define and assign new property to existing object
 delete pp.item3.bbb; // remove property that didn't exists before
 delete pp.item.prop; // remove existing property
+console.log(pp.item.prop);
 setTimeout(() => {
     console.log('obj2 after proxy changes', JSON.stringify(obj2, 4, 4));
     pp.item2 = {
